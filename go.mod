@@ -1,4 +1,4 @@
-module github.com/veniast/hugo-scroll-extended
+module github.com/chatziko/hugo-scroll-extended
 
 go 1.18
 
