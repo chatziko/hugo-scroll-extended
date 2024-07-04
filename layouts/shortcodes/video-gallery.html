@@ -1,11 +1,13 @@
 {{/* Includes are loaded conditionally in custom_head.html */}}
 
-{{ $youtube_ids := strings.Split (.Get "youtube_ids") "," }}
-<div id="video-gallery-container" class="image-gallery fj-gallery">
-  {{ range $youtube_ids }}
+{{- $id := print (.Get "id" | default "video-gallery") "-container" -}}
+
+<div id="{{ $id }}" class="image-gallery fj-gallery">
+  {{ with .Get "youtube_ids" }}
+  {{ range split . "," }}
     <a  class="fj-gallery-item"
         data-lg-size="1280-720"
-        data-src="//www.youtube.com/watch?v={{ . }}&mute=0"
+        data-src="//www.youtube.com/watch?v={{ . }}"
         data-poster="https://img.youtube.com/vi/{{ . }}/mqdefault.jpg"
     >
         <img
@@ -15,22 +17,45 @@
         />
     </a>
   {{ end }}
+  {{ end }}
+
+  {{ with .Get "vimeo_ids" }}
+  {{ range split . "," }}
+    <a  class="fj-gallery-item"
+        data-lg-size="1280-720"
+        data-src="//vimeo.com/{{ . }}"
+        data-poster="https://vumbnail.com/{{ . }}.jpg"
+    >
+        <img
+            width="320"
+            height="180"
+            src="https://vumbnail.com/{{ . }}.jpg"
+        />
+    </a>
+  {{ end }}
+  {{ end }}
 </div>
 <br>
 
 <script>
 galleryInit(() => {
-  fjGallery(document.querySelectorAll('#video-gallery-container'), {
+  fjGallery(document.querySelectorAll('#{{ $id }}'), {
     itemSelector: '.fj-gallery-item',
     rowHeight: 150,
     gutter: 1,
     // transitionDuration: "4s",
     rowHeightTolerance: 0.3,
     onInit: () => {
-      lightGallery(document.getElementById('video-gallery-container'), {
+      lightGallery(document.getElementById('{{ $id }}'), {
         selector: 'a',
         plugins: [lgVideo, /* lgThumbnail */, lgShare],
         speed: 500,
+        youTubePlayerParams: {
+          mute: 0
+        },
+        vimeoPlayerParams: {
+          muted: 0
+        },
       })
     },
   })
