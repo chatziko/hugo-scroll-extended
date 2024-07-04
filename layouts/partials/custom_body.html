@@ -30,22 +30,22 @@ to load more important stuff faster, and also load the theme's jquery first (see
      */}}
      {{-
      $gallery_css := (slice
-          (resources.Get "/lightgallery/css/lightgallery-bundle.min.css")
-          (resources.Get "/flickr-justified-gallery/fjGallery.css")
-          (resources.Get "/swiper/swiper-bundle.css")
+          (resources.Get "/node_modules/lightgallery/css/lightgallery-bundle.min.css")
+          (resources.Get "/node_modules/flickr-justified-gallery/dist/fjGallery.css")
+          (resources.Get "/node_modules/swiper/swiper-bundle.css")
      | resources.Concat "/css/gallery.css" | resources.Fingerprint )
      -}}
      {{-
      $gallery_js := (slice
-          (resources.Get "/lightgallery/lightgallery.min.js")
+          (resources.Get "/node_modules/lightgallery/lightgallery.min.js")
 
-          (resources.Get "/lightgallery/plugins/thumbnail/lg-thumbnail.min.js")
-          (resources.Get "/lightgallery/plugins/share/lg-share.min.js")
-          (resources.Get "/lightgallery/plugins/video/lg-video.min.js")
-          (resources.Get "/lightgallery/plugins/zoom/lg-zoom.min.js")
+          (resources.Get "/node_modules/lightgallery/plugins/thumbnail/lg-thumbnail.min.js")
+          (resources.Get "/node_modules/lightgallery/plugins/share/lg-share.min.js")
+          (resources.Get "/node_modules/lightgallery/plugins/video/lg-video.min.js")
+          (resources.Get "/node_modules/lightgallery/plugins/zoom/lg-zoom.min.js")
 
-          (resources.Get "/flickr-justified-gallery/fjGallery.min.js")
-          (resources.Get "/swiper/swiper-bundle.min.js")
+          (resources.Get "/node_modules/flickr-justified-gallery/dist/fjGallery.min.js")
+          (resources.Get "/node_modules/swiper/swiper-bundle.min.js")
      ) | resources.Concat "/js/gallery.js" | resources.Fingerprint
      -}}
 

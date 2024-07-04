@@ -1,0 +1,13 @@
+{
+  "name": "hugo-scroll-extended",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "flickr-justified-gallery": "^2.2.0",
+    "lightgallery": "^2.7.2",
+    "swiper": "^11.0.6"
+  }
+}
