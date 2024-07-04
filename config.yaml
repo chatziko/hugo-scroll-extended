@@ -1,9 +1,3 @@
 module:
   imports:
     - path: github.com/zjedi/hugo-scroll
- 
-  mounts:
-    - source: layouts
-      target: layouts          # needs to be explicitly set since we mount other dirs below
-    - source: static/fonts
-      target: static/fonts    # merge with fonts mounted below
