@@ -1,0 +1,38 @@
+{{/* Includes are loaded conditionally in custom_head.html */}}
+
+{{ $youtube_ids := strings.Split (.Get "youtube_ids") "," }}
+<div id="video-gallery-container" class="image-gallery fj-gallery">
+  {{ range $youtube_ids }}
+    <a  class="fj-gallery-item"
+        data-lg-size="1280-720"
+        data-src="//www.youtube.com/watch?v={{ . }}&mute=0"
+        data-poster="https://img.youtube.com/vi/{{ . }}/mqdefault.jpg"
+    >
+        <img
+            width="320"
+            height="180"
+            src="https://img.youtube.com/vi/{{ . }}/mqdefault.jpg"
+        />
+    </a>
+  {{ end }}
+</div>
+<br>
+
+<script>
+galleryInit(() => {
+  fjGallery(document.querySelectorAll('#video-gallery-container'), {
+    itemSelector: '.fj-gallery-item',
+    rowHeight: 150,
+    gutter: 1,
+    // transitionDuration: "4s",
+    rowHeightTolerance: 0.3,
+    onInit: () => {
+      lightGallery(document.getElementById('video-gallery-container'), {
+        selector: 'a',
+        plugins: [lgVideo, /* lgThumbnail */, lgShare],
+        speed: 500,
+      })
+    },
+  })
+})
+</script>

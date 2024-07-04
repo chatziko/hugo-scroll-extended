@@ -1,0 +1,61 @@
+<!-- A partial to be overwritten by the user.
+     Simply place a custom_body.html into
+     your local /layouts/partials-directory.
+     Its content will appear before the closing </body>-tag -->
+
+
+<div id="language-menu">
+     {{/*
+     If the current page has a translation in the other language, point to the translated page.
+     Otherwise point to the root of the other language.
+     */}}
+
+     {{ $url := (cond (eq .Lang "el") "en/" "" | absURL) }}
+     {{ range .Page.AllTranslations }}
+          {{ if ne $.Lang .Lang }}
+               {{ $url = .RelPermalink }}
+          {{ end }}
+     {{ end }}
+     <a href='{{ $url }}'>{{ cond (eq .Lang "el") "english" "ελληνικά" }}</a>
+</div>
+
+
+{{/* For photo and video galleries. We load dependencies in custom_body (instead of custom_head)
+to load more important stuff faster, and also load the theme's jquery first (see baseof.html). */}}
+
+{{- if or 1 (.HasShortcode "image-gallery") (.HasShortcode "video-gallery") (.HasShortcode "image-carousel") -}}
+     {{/*
+     NOTE: lightgallery css loads fonts with a ../fonts/ relative path. So we put it under /css
+           and mount its fonts under /fonts (see config.yaml)
+     */}}
+     {{-
+     $gallery_css := (slice
+          (resources.Get "/lightgallery/css/lightgallery-bundle.min.css")
+          (resources.Get "/flickr-justified-gallery/fjGallery.css")
+          (resources.Get "/swiper/swiper-bundle.css")
+     | resources.Concat "/css/gallery.css" | resources.Fingerprint )
+     -}}
+     {{-
+     $gallery_js := (slice
+          (resources.Get "/lightgallery/lightgallery.min.js")
+
+          (resources.Get "/lightgallery/plugins/thumbnail/lg-thumbnail.min.js")
+          (resources.Get "/lightgallery/plugins/share/lg-share.min.js")
+          (resources.Get "/lightgallery/plugins/video/lg-video.min.js")
+          (resources.Get "/lightgallery/plugins/zoom/lg-zoom.min.js")
+
+          (resources.Get "/flickr-justified-gallery/fjGallery.min.js")
+          (resources.Get "/swiper/swiper-bundle.min.js")
+     ) | resources.Concat "/js/gallery.js" | resources.Fingerprint
+     -}}
+
+     <link type="text/css" rel="stylesheet" href="{{ $gallery_css.RelPermalink }}" />
+
+     <script src="{{ $gallery_js.RelPermalink }}" integrity="{{ $gallery_js.Data.Integrity }}" ></script>
+{{- end -}}
+
+<script>
+for(var cb of __galleryInit) {
+    cb();
+}
+</script>

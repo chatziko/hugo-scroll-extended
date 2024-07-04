@@ -1,0 +1,43 @@
+{{/* Includes are loaded conditionally in custom_body.html */}}
+
+{{- $id := print (.Get "id" | default "carousel") "-container" -}}
+{{- $href := .Get "href" -}}
+
+<div id="{{ $id }}" class="swiper">
+  <div id="{{ $id }}-wrapper" class="swiper-wrapper">
+    {{ range split ($.Get "assets") "\n" }}
+    {{ range resources.Match (trim . "\r\t ")  }}
+      {{- $webp := .Fit "800x1000 q90 webp" -}}
+      <a class="swiper-slide" 
+        {{- if $href }} href="{{ $href }}"{{ end -}} 
+      >
+        <img src="{{ $webp.RelPermalink }}"
+             width="{{ $webp.Width }}"
+             height="{{ $webp.Height }}" 
+             loading="lazy"
+        />
+        <div class="swiper-lazy-preloader"></div>
+      </a>
+    {{ end }}
+    {{ end }}
+  </div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+  <div class="swiper-pagination"></div>
+</div>
+
+<script type="text/javascript">
+galleryInit(() => {
+  const swiper = new Swiper('#{{ $id }}', {
+      // other parameters
+      lazyPreloadPrevNext: 1,
+      navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+      },
+  })
+})
+</script>

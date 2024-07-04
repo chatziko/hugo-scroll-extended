@@ -1,0 +1,26 @@
+{{/* https://devnodes.in/blog/hugo/image-convert-to-webp/ */}}
+
+
+{{- $url := urls.Parse .Destination -}}
+{{- $width := $url.Query.Get "width" | default "700" -}}
+{{- $height := $url.Query.Get "height" | default "10000" -}}
+{{- $class := $url.Query.Get "class" | default "" -}}
+
+{{- $image := resources.Get $url.Path -}}
+{{- if $image -}}
+  {{- $post_image_webp := partial "image_converter.html" (dict "ImageSrc" $url.Path "ImgParam" (printf "%sx%s webp q85" $width $height)) -}}
+  {{- $post_image_jpg := partial "image_converter.html" (dict "ImageSrc" $url.Path "ImgParam" (printf "%sx%s jpg q85" $width $height)) -}}
+  <picture>
+      <source srcset="{{ $post_image_webp.RelPermalink }}" type="image/webp">
+      <source srcset="{{ $post_image_jpg.RelPermalink }}" type="image/jpeg">
+      <img
+        loading="lazy"
+        class="{{ $class }}"
+        src="{{ $post_image_jpg.RelPermalink }}"
+        width="{{ $post_image_jpg.Width }}"
+        height="{{ $post_image_jpg.Height  }}"
+        {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ path.Base $url.Path }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }}>
+  </picture>
+{{- else -}}
+  <img loading="lazy" class="img-fluid" src="{{ .Destination | safeURL }}" {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ .Page.Title }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }} />
+{{- end -}}

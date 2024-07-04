@@ -1,0 +1,297 @@
+<!-- A partial to be overwritten by the user.
+     Its content will appear before the closing </head>-tag -->
+
+<style>
+/* Index page */
+
+:root {
+  --highlight: none;
+  --cover-text-color: white;
+  --section-dark-bg-color: #52647b;
+  --highlight-inverse: none;
+  --swiper-navigation-sides-offset: 0px;
+}
+
+img {
+     /* don't stretch images */
+     height: auto;
+}
+
+blockquote {
+     margin: 1em 1.5em 1em 1.5em;
+}
+
+audio {
+     /* margin-left: 10px; */
+     margin-top: 2px;
+     margin-bottom: 6px;
+     vertical-align: middle;
+     height: 36px;
+     opacity: 80%;
+}
+
+#site-head {
+  background: black no-repeat center center;
+}
+
+#site-head-content {
+     /* padding-top: 18%; */
+     padding-top: 480px;
+     width: 100%;
+     max-width: none;
+}
+
+#language-menu {
+     position:absolute;
+     right: 15px;
+     top: 10px;
+     color: white;
+     mix-blend-mode: difference;
+}
+
+#site-head .back-button {
+     position:absolute;
+     left: 15px;
+     top: 10px;
+     color: white;
+     mix-blend-mode: difference;
+}
+
+a.btn {
+  font-family: "Roboto", sans-serif !important;
+  font-weight: normal !important;
+  font-size: 18px !important;
+
+  /* the transparent border creates a smoother effect (no pixel movements) and
+   * solves a weird firefox bug that affects the anchor */
+  border: 1px solid transparent;
+}
+
+/* for the cover buttons */
+a.btn:hover {
+  border: 1px solid white;
+}
+
+.post-content {
+     text-align: justify;
+     hyphens: auto;
+}
+
+.post-content :is(h1, h2, h3, h4, h5, h6), .no-justify {
+     text-align: left;
+}
+
+/* Inner pages */
+.page-template {
+  background: #f2efe8;
+}
+
+.page-template hr {
+  border-top: 1px solid #3a4145;
+  margin: 3.2em 0;
+}
+
+.page-template p:has(.logo) {
+  text-align: left;
+}
+
+.page-template .logo {
+  display: inline;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.page-template .post-header {
+     padding: 0 0 15px;
+}
+
+/* Auto resize embeded youtube videos while preserving the aspect ratio */
+.youtube-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+.youtube-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* This removes a margin inserted on small screens, which creates an annoying horizontal scrolling */
+.inner {
+     margin-left: 0;
+}
+
+/* screen.css replaces the standard bullets with an asterisk. We undo this here */
+li {
+  margin-left: 5px;
+  padding-left: 5px;
+}
+
+ul li {
+  list-style-type: initial;
+}
+
+.fa-asterisk::before {
+  content: "";
+  /* content: "\2022"; */        /* Use bullet instead of asterisk */
+}
+
+/* font-awesome: center and constant width */
+.fa {
+     width: 1em;
+     margin-right: 5px;
+     text-align: center;
+}
+
+/* pdf icon in lists */
+.pdf-icon {
+     content:url("/images/pdf.png");
+     display: inline !important; /* override .postcontent img */
+     position: relative;
+     width: 28px;
+     top: 7px;
+     left: 10px;
+     padding-right: 10px;
+}
+
+/* footer */
+.site-footer .inner {
+     margin-left: auto;
+}
+.site-footer section {
+     display: inline;
+}
+
+/**************************** Swiper carousel ***************************************/
+/* make all carousel slides same height, without changing aspect ratio */
+.swiper-slide {
+     height: auto !important;
+}
+.swiper-slide img {
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+}
+
+/* swipper button shadow for visibility in both dark/light images */
+.swiper-button-next,
+.swiper-button-prev {
+     color: white !important;
+     text-shadow: 2px 0 darkslategray;
+
+     /* change --swiper-navigation-sides-offset from 10px to 0px and replace it with padding.
+        this keeps the buttons at the same position, but with a larger clickable area. */
+     padding: 10px;
+}
+
+/* swiper sets pointer-events: none for the _disabled_ next/prev buttons (the ones on the last/first slide.
+   This causes clicks to be caught by the underlying <a>, which is confusing. We set it to auto
+   so that clicks are caught */
+.swiper-button-disabled {
+     pointer-events: auto !important;
+}
+/*************************************************************************************/
+
+</style>
+
+
+<!-- OBSOLETE. We now host fonts locally, and load them in fonts.css -->
+
+<!-- The local fonts have no greek support, so we load from google -->
+<!-- <link
+  href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700"
+  rel="stylesheet"
+  type="text/css"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800|Roboto+Slab:400,100,300,700"
+  rel="stylesheet"
+  type="text/css"
+/> -->
+
+
+<!-- Custom CSS via inline styles
+     You may use this template to add custom CSS to your site like so: -->
+
+<!-- <style>
+     /* Links */
+     a:hover {
+         color: #b6b84c;
+     }
+
+     /* Header Buttons on Startpage */
+     a.btn {
+         color: white;
+          background-color: #ced067;
+     }
+     a.btn:hover {
+          background-color: #b6b84c;
+     }
+
+     /* Scroll Menu on Startpage */
+     a.fn-item.active {
+          color: #b6b84c;
+     }
+     a.fn-item:hover {
+          color: #ced067;
+     }
+
+     /* Content / Sections */
+     .post-holder.odd {
+          background: #B80135;
+          color: white;
+     }
+     .post-holder {
+          background: #f2efe8;
+     }
+     body {
+          color: #3A4145;
+     }
+
+     /* Footer */
+     .site-footer {
+          color: #BBC7CC;
+          background-color: #22343A;
+     }
+</style> -->
+
+<!-- Custom CSS via "custom.css"-file
+     If you would rather place your custom CSS into
+     a separate file, create a "custom.css" in your
+     local "static/css"-directory. Then add a <link>-tag
+     referencing your "custom.css" like so: -->
+
+<!-- <link rel="stylesheet" href='{{ "css/custom.css" | absURL }}'> -->
+
+<!-- Custom CSS: Color Codes
+     You may checkout https://htmlcolorcodes.com/ to get those
+     weird color codes (like "#22343A") ;-). -->
+
+<!-- Custom link-tags for different icons
+     Generated via https://favicon.io/favicon-generator/ -->
+
+
+
+<script>
+// Used by the image/video gallery shortcodes to run code after the dependencies are loaded
+var __galleryInit = [];
+function galleryInit(cb) {
+     __galleryInit.push(cb);
+}
+</script>
+
+{{ with .Site.Params.googleTagId }}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{{ . }}');
+</script>
+{{ end }}
