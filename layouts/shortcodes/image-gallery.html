@@ -1,6 +1,9 @@
 {{/* Includes are loaded conditionally in custom_body.html */}}
 
 {{- $id := print (.Get "id" | default "gallery") "-container" -}}
+{{- $row_height := .Get "row_height" | default 150 -}}
+{{- $max_row_height := cast.ToInt (mul $row_height 1.5) -}}{{/* 50% tolerance, to cover edge cases */}}
+
 {{- $images := resources.Match (.Get "assets") -}}
 {{- if .Get "shuffle" -}}
   {{- $images = shuffle $images -}}
@@ -10,10 +13,14 @@
   {{ range $images }}
     {{- $image := . -}}
     {{- $webp := $image.Resize (printf "%dx%d q90 webp" $image.Width $image.Height) -}}
-    {{- $thumb := $image.Fit "380x380 q90 webp" -}}
+    {{- $thumb := $webp -}}
+    {{- if gt $thumb.Height $max_row_height -}}
+      {{- $thumb = $image.Resize (printf "x%d q90 webp" $max_row_height) -}}
+    {{- end -}}
+
     <a href="{{ $webp.RelPermalink }}"
       class="fj-gallery-item"
-      data-lg-size="{{ $image.Width }}-{{ $image.Height }}"
+      data-lg-size="{{ $webp.Width }}-{{ $webp.Height }}"
       data-download-url="{{ $image.RelPermalink }}">
       <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" loading="lazy" />
     </a>
@@ -25,7 +32,7 @@
 galleryInit(() => {
   fjGallery(document.querySelectorAll('#{{ $id }}'), {
     itemSelector: '.fj-gallery-item',
-    rowHeight: 150,
+    rowHeight: {{ $row_height }},
     gutter: 1,
     // transitionDuration: "4s",
     rowHeightTolerance: 0.3,

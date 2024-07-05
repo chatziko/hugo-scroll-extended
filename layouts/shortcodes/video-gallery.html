@@ -1,38 +1,43 @@
 {{/* Includes are loaded conditionally in custom_head.html */}}
 
 {{- $id := print (.Get "id" | default "video-gallery") "-container" -}}
+{{- $row_height := .Get "row_height" | default 150 -}}
+{{- $max_row_height := cast.ToInt (mul $row_height 1.5) -}}{{/* 50% tolerance, to cover edge cases */}}
 
 <div id="{{ $id }}" class="image-gallery fj-gallery">
-  {{ with .Get "youtube_ids" }}
-  {{ range split . "," }}
-    <a  class="fj-gallery-item"
-        data-lg-size="1280-720"
-        data-src="//www.youtube.com/watch?v={{ . }}"
-        data-poster="https://img.youtube.com/vi/{{ . }}/mqdefault.jpg"
-    >
-        <img
-            width="320"
-            height="180"
-            src="https://img.youtube.com/vi/{{ . }}/mqdefault.jpg"
-        />
-    </a>
-  {{ end }}
-  {{ end }}
+  {{ range split (.Get "video_ids") "," }}
+    {{- $image := "" }}
+    {{- $data_src := "" }}
 
-  {{ with .Get "vimeo_ids" }}
-  {{ range split . "," }}
-    <a  class="fj-gallery-item"
+    {{/* vimeo has numeric ids, youtube has alphanumeric */}}
+    {{- if findRE `[^0-9]` . }}
+      {{/* Youtube. Try first the maxres version. If not available get the SD (640x480) version, but crop it to 16:9 */}}
+      {{- $image = resources.GetRemote (printf "https://img.youtube.com/vi/%s/maxresdefault.jpg" .) -}}
+      {{- if not $image -}}
+        {{- $image = resources.GetRemote (printf "https://img.youtube.com/vi/%s/sddefault.jpg" .) -}}
+        {{- $image = $image.Crop "640x360 center" -}}
+      {{- end -}}
+      {{- $data_src = printf "//www.youtube.com/watch?v=%s" . -}}
+
+    {{- else -}}
+      {{/* Vimeo */}}
+      {{- $image = resources.GetRemote (printf "https://vumbnail.com/%s.jpg" .) -}}
+      {{- $data_src = printf "//vimeo.com/%s" . -}}
+    {{- end -}}
+
+    {{- $webp := $image.Resize (printf "%dx%d q90 webp" $image.Width $image.Height) -}}
+    {{- $thumb := $webp -}}
+    {{- if gt $thumb.Height $max_row_height -}}
+      {{- $thumb = $image.Resize (printf "x%d q90 webp" $max_row_height) -}}
+    {{- end -}}
+
+    <a href="#" class="fj-gallery-item"
         data-lg-size="1280-720"
-        data-src="//vimeo.com/{{ . }}"
-        data-poster="https://vumbnail.com/{{ . }}.jpg"
+        data-src="{{ $data_src }}"
+        data-poster="{{ $webp.RelPermalink }}"
     >
-        <img
-            width="320"
-            height="180"
-            src="https://vumbnail.com/{{ . }}.jpg"
-        />
+      <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" loading="lazy" />
     </a>
-  {{ end }}
   {{ end }}
 </div>
 <br>
@@ -41,7 +46,7 @@
 galleryInit(() => {
   fjGallery(document.querySelectorAll('#{{ $id }}'), {
     itemSelector: '.fj-gallery-item',
-    rowHeight: 150,
+    rowHeight: {{ $row_height }},
     gutter: 1,
     // transitionDuration: "4s",
     rowHeightTolerance: 0.3,
@@ -51,10 +56,15 @@ galleryInit(() => {
         plugins: [lgVideo, /* lgThumbnail */, lgShare],
         speed: 500,
         youTubePlayerParams: {
-          mute: 0
+          mute: 0,
+          rel: 0,
         },
         vimeoPlayerParams: {
-          muted: 0
+          muted: 0,
+          title: 0,
+          portrait: 0,
+          like: 0,
+          byline: 0,
         },
       })
     },
