@@ -166,6 +166,27 @@ ul li {
      display: inline;
 }
 
+/* show play button in video gallery */
+.play-button {
+     position: relative;
+     display: inline-block;
+}
+.play-button:before {
+     position:absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     content: "\f04b";
+     font-family: FontAwesome;
+     font-size: 80px;
+     color: #fff;
+     opacity: .4;
+     text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+.play-button:hover:before {
+     opacity: .6;
+}
+
 /**************************** Swiper carousel ***************************************/
 /* make all carousel slides same height, without changing aspect ratio */
 .swiper-slide {

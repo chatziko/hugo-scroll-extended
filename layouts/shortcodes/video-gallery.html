@@ -31,7 +31,7 @@
       {{- $thumb = $image.Resize (printf "x%d q90 webp" $max_row_height) -}}
     {{- end -}}
 
-    <a href="#" class="fj-gallery-item"
+    <a href="#" class="fj-gallery-item play-button"
         data-lg-size="1280-720"
         data-src="{{ $data_src }}"
         data-poster="{{ $webp.RelPermalink }}"
