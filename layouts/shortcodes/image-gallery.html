@@ -22,7 +22,7 @@
       class="fj-gallery-item"
       data-lg-size="{{ $webp.Width }}-{{ $webp.Height }}"
       data-download-url="{{ $image.RelPermalink }}">
-      <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" loading="lazy" />
+      <img loading="lazy" src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" />
     </a>
   {{ end }}
 </div>

@@ -11,10 +11,10 @@
       <a class="swiper-slide" 
         {{- if $href }} href="{{ $href }}"{{ end -}} 
       >
-        <img src="{{ $webp.RelPermalink }}"
+        <img loading="lazy"
+             src="{{ $webp.RelPermalink }}"
              width="{{ $webp.Width }}"
              height="{{ $webp.Height }}" 
-             loading="lazy"
         />
         <div class="swiper-lazy-preloader"></div>
       </a>
@@ -30,7 +30,8 @@
 galleryInit(() => {
   const swiper = new Swiper('#{{ $id }}', {
       // other parameters
-      lazyPreloadPrevNext: 1,
+      {{/*  preload is broken (loads 2nd slide immediately, and not needed, cause the browser detects which slides are close to appear by itself  */}}
+      lazyPreloadPrevNext: 0,
       navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
