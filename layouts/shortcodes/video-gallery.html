@@ -6,25 +6,32 @@
 
 <div id="{{ $id }}" class="image-gallery fj-gallery">
   {{ range split (.Get "video_ids") "," }}
+    {{- $video_id := . }}
     {{- $image := "" }}
     {{- $data_src := "" }}
 
     {{/* vimeo has numeric ids, youtube has alphanumeric */}}
-    {{- if findRE `[^0-9]` . }}
-      {{/* Youtube. Try first the maxres version. If not available get the SD (640x480) version, but crop it to 16:9 */}}
-      {{- $image = resources.GetRemote (printf "https://img.youtube.com/vi/%s/maxresdefault.jpg" .) -}}
-      {{- if not $image -}}
-        {{- $image = resources.GetRemote (printf "https://img.youtube.com/vi/%s/sddefault.jpg" .) -}}
-        {{- $image = $image.Crop "640x360 center" -}}
-      {{- end -}}
-      {{- $data_src = printf "//www.youtube.com/watch?v=%s" . -}}
+    {{- if findRE `[^0-9]` $video_id }}
+      {{/* youtube */}}
+      {{- $data_src = printf "//www.youtube.com/watch?v=%s" $video_id -}}
 
+      {{/* Get the highest quality thumbnail available, and crop to 16:9 */}}
+      {{- range slice "maxresdefault" "maxres" "sd" "hq" "mq" -}} 
+        {{- with resources.GetRemote (printf "https://img.youtube.com/vi/%s/%sdefault.jpg" $video_id .) -}}
+          {{- $height := cast.ToInt (mul .Width 0.5625) -}}
+          {{- $image = .Crop (printf "%dx%d center" .Width $height) -}}
+          {{- break -}}
+        {{- end -}}
+      {{- end -}}
     {{- else -}}
-      {{/* Vimeo */}}
-      {{- $image = resources.GetRemote (printf "https://vumbnail.com/%s.jpg" .) -}}
-      {{- $data_src = printf "//vimeo.com/%s" . -}}
+      {{/* vimeo */}}
+      {{- $data_src = printf "//vimeo.com/%s" $video_id -}}
+      {{- $image = resources.GetRemote (printf "https://vumbnail.com/%s.jpg" $video_id) -}}
     {{- end -}}
 
+    {{- if not $image -}}
+      {{- errorf (printf "no thumbnail found for %s" $video_id) -}}
+    {{- end -}}
     {{- $webp := $image.Resize (printf "%dx%d q90 webp" $image.Width $image.Height) -}}
     {{- $thumb := $webp -}}
     {{- if gt $thumb.Height $max_row_height -}}
