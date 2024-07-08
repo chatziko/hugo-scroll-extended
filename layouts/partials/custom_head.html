@@ -34,13 +34,6 @@ audio {
   background: black no-repeat center center;
 }
 
-#site-head.withCenteredImage {
-     /*  Workaround hugo-scroll bug with @media rules  */
-     {{ with resources.Get .Params.header_image }}
-     background-image: url('{{- .RelPermalink -}}') !important;
-     {{ end }}
-}
-
 #site-head-content {
      /* padding-top: 18%; */
      padding-top: 480px;
