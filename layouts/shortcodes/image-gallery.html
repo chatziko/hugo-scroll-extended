@@ -4,7 +4,11 @@
 {{- $row_height := .Get "row_height" | default 150 -}}
 {{- $max_row_height := cast.ToInt (mul $row_height 1.5) -}}{{/* 50% tolerance, to cover edge cases */}}
 
-{{- $images := resources.Match (.Get "assets") -}}
+{{- $images := slice -}}
+{{ range split ($.Get "assets") "\n" }}
+  {{ $images = union $images (resources.Match (trim . "\r\t "))  }}
+{{ end }}
+
 {{- if .Get "shuffle" -}}
   {{- $images = shuffle $images -}}
 {{- end -}}
