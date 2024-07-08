@@ -3,7 +3,7 @@
      your local /layouts/partials-directory.
      Its content will appear before the closing </body>-tag -->
 
-{{ with .Parent }}
+{{ with and .IsNode .Parent }}
 <div class="segment-back-button">
      <a href="{{ .RelPermalink | relLangURL }}"><i class="fa fa-chevron-left" aria-hidden="true"></i>{{ or .Title .Params.header_headline }}</a>
 </div>
