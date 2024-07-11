@@ -16,10 +16,10 @@
 <div id="{{ $id }}" class="image-gallery fj-gallery">
   {{ range $images }}
     {{- $image := . -}}
-    {{- $webp := $image.Resize (printf "%dx%d q90 webp" $image.Width $image.Height) -}}
+    {{- $webp := $image.Resize (printf "%dx%d q90 photo webp" $image.Width $image.Height) -}}
     {{- $thumb := $webp -}}
     {{- if gt $thumb.Height $max_row_height -}}
-      {{- $thumb = $image.Resize (printf "x%d q90 webp" $max_row_height) -}}
+      {{- $thumb = $image.Resize (printf "x%d q90 photo webp" $max_row_height) -}}
     {{- end -}}
 
     <a href="{{ $webp.RelPermalink }}"

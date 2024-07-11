@@ -2,12 +2,20 @@
 
 {{- $id := print (.Get "id" | default "carousel") "-container" -}}
 {{- $href := .Get "href" -}}
+{{- $height := .Get "height" -}}
 
-<div id="{{ $id }}" class="swiper">
+<div id="{{ $id }}" class="swiper" {{ with $height }}style="height: {{ . }}px"{{ end }}>
   <div id="{{ $id }}-wrapper" class="swiper-wrapper">
     {{ range split ($.Get "assets") "\n" }}
     {{ range resources.Match (trim . "\r\t ")  }}
-      {{- $webp := .Fit "800x1000 q90 webp" -}}
+      {{- $webp := 0 }}
+      {{- if $height -}}
+        {{/*  We know the exact dimensions  */}}
+        {{- $webp = .Fill (printf "700x%d q90 center photo webp" $height) -}}
+      {{- else -}}
+        {{/* unknown height, leave some room for resize/crop */}}
+        {{- $webp = .Fit "800x1000 q90 photo webp" -}}
+      {{- end -}}
       <a class="swiper-slide" 
         {{- if $href }} href="{{ $href }}"{{ end -}} 
       >
