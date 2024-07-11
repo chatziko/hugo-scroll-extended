@@ -2,9 +2,12 @@
 
 {{- $id := print (.Get "id" | default "carousel") "-container" -}}
 {{- $href := .Get "href" -}}
+
+{{/*  The height parameter is the desired height when the carousel is displayed on a full 700px width.
+      We set aspect-ratio instead of height, to make it shrink on smaller displays.  */}}
 {{- $height := .Get "height" -}}
 
-<div id="{{ $id }}" class="swiper" {{ with $height }}style="height: {{ . }}px"{{ end }}>
+<div id="{{ $id }}" class="swiper" {{ with $height }}style="aspect-ratio: 700/{{ . }}"{{ end }}>
   <div id="{{ $id }}-wrapper" class="swiper-wrapper">
     {{ range split ($.Get "assets") "\n" }}
     {{ range resources.Match (trim . "\r\t ")  }}
