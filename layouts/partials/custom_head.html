@@ -41,24 +41,6 @@ audio {
      max-width: none;
 }
 
-/* smaller screens (hugo theme uses 1130px cuttoff) */
-@media (max-width: 1130px) {
-     /* make the title and menu more compact */
-     #site-head-content {
-          padding-top: 430px;
-     }
-     #site-head .btn {
-          margin-top: 0 !important;
-     }
-
-     /* optionally hide subtitle */
-     {{ with .Params.portrait_hide_subtitle }}
-     #site-head h2 {
-          display: none;
-     }
-     {{ end }}
-}
-
 #language-menu {
      position:absolute;
      right: 15px;
@@ -150,7 +132,7 @@ a.btn:hover {
 
 /* screen.css replaces the standard bullets with an asterisk. We undo this here */
 li {
-  margin-left: 5px;
+  margin-left: 0px;
   padding-left: 5px;
 }
 
@@ -214,6 +196,30 @@ ul li {
 }
 .play-button:hover:before {
      opacity: .6;
+}
+
+/* smaller screens (hugo theme uses 1130px cuttoff) */
+@media (max-width: 1130px) {
+     /* make the title and menu more compact */
+     #site-head-content {
+          padding-top: 430px;
+     }
+     #site-head .btn {
+          margin-top: 0 !important;
+     }
+
+     /* screen.css replaces the standard bullets with an asterisk. We undo this here */
+     li {
+          margin-left: -15px;
+          padding-left: 1px;
+     }
+
+     /* optionally hide subtitle */
+     {{ with .Params.portrait_hide_subtitle }}
+     #site-head h2 {
+          display: none;
+     }
+     {{ end }}
 }
 
 /**************************** Swiper carousel ***************************************/
