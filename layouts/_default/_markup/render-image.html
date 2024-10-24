@@ -1,10 +1,26 @@
-{{/* https://devnodes.in/blog/hugo/image-convert-to-webp/ */}}
+{{- /* https://devnodes.in/blog/hugo/image-convert-to-webp/ */ -}}
 
+{{- /*
+Note: to render images with a <div> (for captions) we need to avoid the <p> automatically
+      inserted by markdown, cause <p> cannot contain <div>. This can be achieved by having
+      __standalone__ images and setting
+      markup.goldmark.parser.wrapStandAloneImageWithinParagraph = false
+See: https://gohugo.io/content-management/markdown-attributes/
+     https://github.com/gohugoio/hugo/releases/tag/v0.108.0
+*/ -}}
 
 {{- $url := urls.Parse .Destination -}}
 {{- $width := $url.Query.Get "width" | default "700" -}}
 {{- $height := $url.Query.Get "height" | default "10000" -}}
 {{- $class := $url.Query.Get "class" | default "" -}}
+
+{{- if .Attributes.href -}}
+  <a href="{{ .Attributes.href }}">
+{{- end -}}
+
+{{- if .Attributes.caption -}}
+  <div class="img-caption-container">
+{{- end -}}
 
 {{- $image := resources.Get $url.Path -}}
 {{- if $image -}}
@@ -23,4 +39,13 @@
   </picture>
 {{- else -}}
   <img loading="lazy" class="img-fluid" src="{{ .Destination | safeURL }}" {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ .Page.Title }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }} />
+{{- end -}}
+
+{{- if .Attributes.caption -}}
+    <div>{{ .Attributes.caption }}</div>
+  </div>
+{{- end -}}
+
+{{- if .Attributes.href -}}
+  </a>
 {{- end -}}
