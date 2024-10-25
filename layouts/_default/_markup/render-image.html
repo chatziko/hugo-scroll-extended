@@ -1,12 +1,20 @@
-{{- /* https://devnodes.in/blog/hugo/image-convert-to-webp/ */ -}}
-
 {{- /*
-Note: to render images with a <div> (for captions) we need to avoid the <p> automatically
-      inserted by markdown, cause <p> cannot contain <div>. This can be achieved by having
-      __standalone__ images and setting
-      markup.goldmark.parser.wrapStandAloneImageWithinParagraph = false
-See: https://gohugo.io/content-management/markdown-attributes/
-     https://github.com/gohugoio/hugo/releases/tag/v0.108.0
+
+Notes:
+- To render images with a <div> (for captions) we need to avoid the <p> automatically
+  inserted by markdown, cause <p> cannot contain <div>. This can be achieved by having
+  __standalone__ images and setting
+  markup.goldmark.parser.wrapStandAloneImageWithinParagraph = false
+
+  See:
+  https://gohugo.io/content-management/markdown-attributes/
+  https://github.com/gohugoio/hugo/releases/tag/v0.108.0
+
+- width/height can be given to resize the image while maintainining aspect ratio.
+  If __both__ are given we use .Fill, so the image will be cropped in that exact size.
+
+- For webp see https://devnodes.in/blog/hugo/image-convert-to-webp/
+
 */ -}}
 
 {{- $url := urls.Parse .Destination -}}
@@ -14,18 +22,28 @@ See: https://gohugo.io/content-management/markdown-attributes/
 {{- $height := $url.Query.Get "height" | default "10000" -}}
 {{- $class := $url.Query.Get "class" | default "" -}}
 
+{{- $action := "fit" -}}
+{{- if and ($url.Query.Get "width") ($url.Query.Get "height") -}}
+  {{- $action = printf "fill %s" (or .Attributes.fill_anchor "Smart") -}}
+{{- end -}}
+{{- $action = printf "%s %sx%s q85" $action $width $height -}}
+
+
 {{- if .Attributes.href -}}
-  <a href="{{ .Attributes.href }}">
+  <a href="{{ .Attributes.href }}" {{ if strings.HasPrefix .Attributes.href "http" }} target="_blank"{{ end }}>
 {{- end -}}
 
 {{- if .Attributes.caption -}}
   <div class="img-caption-container">
+{{- else if .IsBlock -}}
+  {{- /* standalone image without caption, we wrap it in <p> outselves */ -}}
+  <p>
 {{- end -}}
 
 {{- $image := resources.Get $url.Path -}}
 {{- if $image -}}
-  {{- $post_image_webp := partial "image_converter.html" (dict "ImageSrc" $url.Path "ImgParam" (printf "%sx%s webp q85" $width $height)) -}}
-  {{- $post_image_jpg := partial "image_converter.html" (dict "ImageSrc" $url.Path "ImgParam" (printf "%sx%s jpg q85" $width $height)) -}}
+  {{- $post_image_webp := partial "image_converter.html" (dict "ImageSrc" $url.Path "ImgParam" (printf "%s webp" $action)) -}}
+  {{- $post_image_jpg := partial "image_converter.html" (dict "ImageSrc" $url.Path "ImgParam" (printf "%s jpg" $action)) -}}
   <picture>
       <source srcset="{{ $post_image_webp.RelPermalink }}" type="image/webp">
       <source srcset="{{ $post_image_jpg.RelPermalink }}" type="image/jpeg">
@@ -42,8 +60,13 @@ See: https://gohugo.io/content-management/markdown-attributes/
 {{- end -}}
 
 {{- if .Attributes.caption -}}
-    <div>{{ .Attributes.caption }}</div>
+    <div class="img-caption">{{ .Attributes.caption | safeHTML }}</div>
+    {{- with .Attributes.subcaption -}}
+      <div class="img-subcaption">{{ . | safeHTML }}</div>
+    {{- end -}}
   </div>
+{{- else if .IsBlock -}}
+  </p>
 {{- end -}}
 
 {{- if .Attributes.href -}}
