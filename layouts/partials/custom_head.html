@@ -96,7 +96,8 @@ a.btn:hover {
   margin: 3.2em 0;
 }
 
-.page-template p:has(.logo) {
+/* paragraphs with logos don't contain text and appear strange when justified */
+p:has(.logo) {
   text-align: left;
 }
 
