@@ -10,14 +10,14 @@
     {{- $image := "" }}
     {{- $data_src := "" }}
 
-    {{/* vimeo has numeric ids, youtube has alphanumeric */}}
+    {{/* vimeo has numeric ids, youtube has alphanumeric (support also &t=...) */}}
     {{- if findRE `[^0-9]` $video_id }}
       {{/* youtube */}}
       {{- $data_src = printf "//www.youtube.com/watch?v=%s" $video_id -}}
 
       {{/* Get the highest quality thumbnail available, and crop to 16:9 */}}
       {{- range slice "maxresdefault" "maxres" "sd" "hq" "mq" -}} 
-        {{- with resources.GetRemote (printf "https://img.youtube.com/vi/%s/%sdefault.jpg" $video_id .) -}}
+        {{- with resources.GetRemote (printf "https://img.youtube.com/vi/%s/%sdefault.jpg" (replaceRE "&.*" "" $video_id) .) -}}
           {{- $height := cast.ToInt (mul .Width 0.5625) -}}
           {{- $image = .Crop (printf "%dx%d center" .Width $height) -}}
           {{- break -}}
