@@ -53,10 +53,10 @@ Notes:
         src="{{ $post_image_jpg.RelPermalink }}"
         width="{{ $post_image_jpg.Width }}"
         height="{{ $post_image_jpg.Height  }}"
-        {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ path.Base $url.Path }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }}>
+        {{ with .Text}} alt="{{ . }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }}>
   </picture>
 {{- else -}}
-  <img loading="lazy" class="img-fluid" src="{{ .Destination | safeURL }}" {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ .Page.Title }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }} />
+  <img loading="lazy" class="img-fluid" src="{{ .Destination | safeURL }}" {{ with .Text}} alt="{{ . }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }} />
 {{- end -}}
 
 {{- if .Attributes.caption -}}
