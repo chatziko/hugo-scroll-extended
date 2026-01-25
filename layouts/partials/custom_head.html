@@ -2,286 +2,307 @@
      Its content will appear before the closing </head>-tag -->
 
 <style>
-/* Index page */
+  /* Index page */
 
-:root {
-  --highlight: none;
-  --cover-text-color: white;
-  --section-dark-bg-color: #52647b;
-  --highlight-inverse: none;
-  --swiper-navigation-sides-offset: 0px;
-}
+  :root {
+    --highlight: none;
+    --cover-text-color: white;
+    --section-dark-bg-color: #52647b;
+    --highlight-inverse: none;
+    --swiper-navigation-sides-offset: 0px;
+  }
 
-img {
-     /* don't stretch images */
-     height: auto;
-}
+  img {
+    /* don't stretch images */
+    height: auto;
+  }
 
-blockquote {
-     margin: 1em 1.5em 1em 1.5em;
-}
+  blockquote {
+    margin: 1em 1.5em 1em 1.5em;
+  }
 
-audio {
-     /* margin-left: 10px; */
-     margin-top: 2px;
-     margin-bottom: 6px;
-     vertical-align: middle;
-     height: 36px;
-     opacity: 80%;
-}
+  audio {
+    /* margin-left: 10px; */
+    margin-top: 2px;
+    margin-bottom: 6px;
+    vertical-align: middle;
+    height: 36px;
+    opacity: 80%;
+  }
 
-#site-head {
-  background: black no-repeat center center;
-}
+  #site-head {
+    background: black no-repeat center center;
+  }
 
-#site-head-content {
-     /* padding-top: 18%; */
-     padding-top: 480px;
-     width: 100%;
-     max-width: none;
-}
+  #site-head-content {
+    /* padding-top: 18%; */
+    padding-top: 480px;
+    width: 100%;
+    max-width: none;
+  }
 
-#language-menu {
-     position:absolute;
-     right: 12px;
-     top: 12px;
-     font-size: 160%;
-}
-#language-menu img {
-     width: 35px;
-}
+  #language-menu {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    font-size: 160%;
+  }
 
-.segment-back-button {
-     position:absolute;
-     left: 15px;
-     top: 10px;
-     color: white;
-     mix-blend-mode: difference;
-}
+  #language-menu img {
+    width: 35px;
+  }
 
-/* navigation menu has z-index 9999 which appears on top of gallery. lower it a bit  */
-.fixed-nav {
-     z-index: 999;
-}
+  .segment-back-button {
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    color: white;
+    mix-blend-mode: difference;
+  }
 
-a.btn {
-  font-family: "Roboto", sans-serif !important;
-  font-weight: normal !important;
-  font-size: 18px !important;
+  /* navigation menu has z-index 9999 which appears on top of gallery. lower it a bit  */
+  .fixed-nav {
+    z-index: 999;
+  }
 
-  /* the transparent border creates a smoother effect (no pixel movements) and
+  a.btn {
+    font-family: "Roboto", sans-serif !important;
+    font-weight: normal !important;
+    font-size: 18px !important;
+
+    /* the transparent border creates a smoother effect (no pixel movements) and
    * solves a weird firefox bug that affects the anchor */
-  border: 1px solid transparent;
-}
+    border: 1px solid transparent;
+  }
 
-/* for the cover buttons */
-a.btn:hover {
-  border: 1px solid white;
-}
+  /* for the cover buttons */
+  a.btn:hover {
+    border: 1px solid white;
+  }
 
-.post-content {
-     text-align: justify;
-     hyphens: auto;
-}
+  .post-content {
+    text-align: justify;
+    hyphens: auto;
+  }
 
-.post-content :is(h1, h2, h3, h4, h5, h6), .no-justify {
-     text-align: left;
-}
+  .post-content :is(h1, h2, h3, h4, h5, h6),
+  .no-justify {
+    text-align: left;
+  }
 
-/* Inner pages */
-.page-template {
-  background: #f2efe8;
-}
+  /* Inner pages */
+  .page-template {
+    background: #f2efe8;
+  }
 
-.page-template hr {
-  border-top: 1px solid #3a4145;
-  margin: 3.2em 0;
-}
+  .page-template hr {
+    border-top: 1px solid #3a4145;
+    margin: 3.2em 0;
+  }
 
-/* paragraphs with logos don't contain text and appear strange when justified */
-p:has(.logo) {
-  text-align: left;
-}
+  /* paragraphs with logos don't contain text and appear strange when justified */
+  p:has(.logo) {
+    text-align: left;
+  }
 
-.logo {
-  display: inline !important;
-  margin-right: 10px !important;
-  vertical-align: middle;
-}
+  .logo {
+    display: inline !important;
+    margin-right: 10px !important;
+    vertical-align: middle;
+  }
 
-.img-caption-container {
-  text-align: center;
-  display: inline-block;
-  padding-bottom: 25px;
-}
+  .img-caption-container {
+    text-align: center;
+    display: inline-block;
+    padding-bottom: 25px;
+  }
 
-.img-caption-container img {
-  margin-right: 10px;
-}
+  .img-caption-container img {
+    margin-right: 10px;
+  }
 
-.img-caption-container .img-caption {
-  font-weight: bold;
-  padding-top: 7px;
-}
+  .img-caption-container .img-caption {
+    font-weight: bold;
+    padding-top: 7px;
+  }
 
-.img-caption-container .img-subcaption {
-  font-size: large;
-}
+  .img-caption-container .img-subcaption {
+    font-size: large;
+  }
 
-.page-template .post-header {
-     padding: 0 0 15px;
-}
+  .page-template .post-header {
+    padding: 0 0 15px;
+  }
 
-/* Auto resize embeded youtube videos while preserving the aspect ratio */
-.youtube-container {
+  /* Auto resize embeded youtube videos while preserving the aspect ratio */
+  .youtube-container {
     position: relative;
     width: 100%;
     height: 0;
     padding-bottom: 56.25%;
-}
-.youtube-container iframe {
+  }
+
+  .youtube-container iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-}
+  }
 
-/* This removes a margin inserted on small screens, which creates an annoying horizontal scrolling */
-.inner {
-     margin-left: 0;
-}
+  /* This removes a margin inserted on small screens, which creates an annoying horizontal scrolling */
+  .inner {
+    margin-left: 0;
+  }
 
-/* screen.css replaces the standard bullets with an asterisk. We undo this here */
-li {
-  margin-left: 0px;
-  padding-left: 5px;
-}
+  /* screen.css replaces the standard bullets with an asterisk. We undo this here */
+  li {
+    margin-left: 0px;
+    padding-left: 5px;
+  }
 
-ul li {
-  list-style-type: initial;
-}
+  ul li {
+    list-style-type: initial;
+  }
 
-.fa-asterisk::before {
-  content: "";
-  /* content: "\2022"; */        /* Use bullet instead of asterisk */
-}
+  .fa-asterisk::before {
+    content: "";
+    /* content: "\2022"; */
+    /* Use bullet instead of asterisk */
+  }
 
-/* font-awesome: center and constant width */
-.fa {
-     width: 1em;
-     margin-right: 5px;
-     text-align: center;
-}
+  /* font-awesome: center and constant width */
+  .fa {
+    width: 1em;
+    margin-right: 5px;
+    text-align: center;
+  }
 
-/* pdf icon in lists */
-.pdf-icon {
-     content:url("/images/pdf.png");
-     display: inline !important; /* override .postcontent img */
-     position: relative;
-     width: 28px;
-     top: 7px;
-     left: 10px;
-     padding-right: 10px;
-}
+  /* pdf icon in lists */
+  .pdf-icon {
+    content: url("/images/pdf.png");
+    display: inline !important;
+    /* override .postcontent img */
+    position: relative;
+    width: 28px;
+    top: 7px;
+    left: 10px;
+    padding-right: 10px;
+  }
 
-.subheading {
-     font-size: large;
-     margin-left: 10px;
-     vertical-align: middle;
-}
+  .subheading {
+    font-size: large;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
 
-/* footer */
-.site-footer .inner {
-     margin-left: auto;
-}
-.site-footer section {
-     display: inline;
-}
+  /* footer */
+  .site-footer .inner {
+    margin-left: auto;
+  }
 
-/* show play button in video gallery */
-.play-button {
-     position: relative;
-     display: inline-block;
-}
-.play-button:before {
-     position:absolute;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     content: "\f04b";
-     font-family: ForkAwesome;
-     font-size: 80px;
-     color: #fff;
-     opacity: .4;
-     text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
-}
-.play-button:hover:before {
-     opacity: .6;
-}
+  .site-footer section {
+    display: inline;
+  }
 
-/* smaller screens (hugo theme uses 1130px cuttoff) */
-@media (max-width: 1130px) {
-     /* make the title and menu more compact */
-     #site-head-content {
-          padding-top: 430px;
-     }
-     #site-head .btn {
-          margin-top: 0 !important;
-     }
+  /* show play button in video gallery */
+  .play-button {
+    position: relative;
+    display: inline-block;
+  }
 
-     /* screen.css replaces the standard bullets with an asterisk. We undo this here */
-     li {
-          margin-left: -15px;
-          padding-left: 1px;
-     }
+  .play-button:before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "\f04b";
+    font-family: ForkAwesome;
+    font-size: 80px;
+    color: #fff;
+    opacity: .4;
+    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+  }
 
-     /* optionally hide subtitle */
-     {{ with .Params.portrait_hide_subtitle }}
-     #site-head h2 {
-          display: none;
-     }
-     {{ end }}
-}
+  .play-button:hover:before {
+    opacity: .6;
+  }
 
-/**************************** Swiper carousel ***************************************/
-/* make all carousel slides same height, without changing aspect ratio */
-.swiper-slide {
-     height: auto !important;
-}
-.swiper-slide img {
-     width: 100%;
-     height: 100%;
-     object-fit: cover;
-}
+  /* smaller screens (hugo theme uses 1130px cuttoff) */
+  @media (max-width: 1130px) {
 
-/* swipper button shadow for visibility in both dark/light images */
-.swiper-button-next,
-.swiper-button-prev {
-     color: white !important;
-     text-shadow: 2px 0 darkslategray;
+    /* make the title and menu more compact */
+    #site-head-content {
+      padding-top: 430px;
+    }
 
-     /* change --swiper-navigation-sides-offset from 10px to 0px and replace it with padding.
+    #site-head .btn {
+      margin-top: 0 !important;
+    }
+
+    /* screen.css replaces the standard bullets with an asterisk. We undo this here */
+    li {
+      margin-left: -15px;
+      padding-left: 1px;
+    }
+
+    /* optionally hide subtitle */
+      {
+        {
+        with .Params.portrait_hide_subtitle
+      }
+    }
+
+    #site-head h2 {
+      display: none;
+    }
+
+      {
+        {
+        end
+      }
+    }
+  }
+
+  /**************************** Swiper carousel ***************************************/
+  /* make all carousel slides same height, without changing aspect ratio */
+  .swiper-slide {
+    height: auto !important;
+  }
+
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* swipper button shadow for visibility in both dark/light images */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: white !important;
+    text-shadow: 2px 0 darkslategray;
+
+    /* change --swiper-navigation-sides-offset from 10px to 0px and replace it with padding.
         this keeps the buttons at the same position, but with a larger clickable area. */
-     padding: 10px;
-}
+    padding: 10px;
+  }
 
-/* swiper sets pointer-events: none for the _disabled_ next/prev buttons (the ones on the last/first slide.
+  /* swiper sets pointer-events: none for the _disabled_ next/prev buttons (the ones on the last/first slide.
    This causes clicks to be caught by the underlying <a>, which is confusing. We set it to auto
    so that clicks are caught */
-.swiper-button-disabled {
-     pointer-events: auto !important;
-}
-/*************************************************************************************/
+  .swiper-button-disabled {
+    pointer-events: auto !important;
+  }
 
+  /*************************************************************************************/
 </style>
 
 <script>
-// Used by the image/video gallery shortcodes to run code after the dependencies are loaded
-var __galleryInit = [];
-function galleryInit(cb) {
-     __galleryInit.push(cb);
-}
+  // Used by the image/video gallery shortcodes to run code after the dependencies are loaded
+  var __galleryInit = [];
+  function galleryInit(cb) {
+    __galleryInit.push(cb);
+  }
 </script>
 
 {{ template "_internal/google_analytics.html" . }}
