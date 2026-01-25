@@ -12,6 +12,15 @@
     --swiper-navigation-sides-offset: 0px;
   }
 
+  /* We want instant scroll when loading a #hash URL, but smooth scroll within the page. See the script at the end of page */
+  html {
+    scroll-behavior: auto;
+  }
+  /* Hide the content if there is a hash in the URL */
+  html[data-loading="true"] body {
+    opacity: 0;
+  }
+
   img {
     /* don't stretch images */
     height: auto;
@@ -296,6 +305,42 @@
 
   /*************************************************************************************/
 </style>
+
+<script>
+  // Goals:
+  // - if loading a #hash url, we want to instantly scroll (no smooth), and only display
+  //   the content after the scroll (no sudden "flash").
+  // - after loading, scroll within the page should be "smooth"
+  //
+  // Tag the page immediately to prevent the "flash"
+  if (window.location.hash) {
+    document.documentElement.setAttribute('data-loading', 'true');
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const rawHash = window.location.hash;
+    if (rawHash) {
+      try {
+        // scroll to hash, allow utf8 (#ελληνικά)
+        const decodedHash = decodeURIComponent(rawHash);
+        const target = document.querySelector(CSS.escape(decodedHash));
+        if (target) {
+          target.scrollIntoView();
+        }
+      } catch (e) {
+        console.error("Invalid Hash:", e);
+      }
+
+      // Reveal the previously hidden page
+      document.documentElement.removeAttribute('data-loading');
+    }
+
+    // Enable smooth scrolling for subsequent clicks
+    setTimeout(() => {
+      document.documentElement.style.scrollBehavior = 'smooth';
+    }, 100);
+  });
+</script>
 
 <script>
   // Used by the image/video gallery shortcodes to run code after the dependencies are loaded
