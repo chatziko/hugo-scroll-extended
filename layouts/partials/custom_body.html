@@ -11,17 +11,31 @@
 
 <div id="language-menu">
      {{/*
-     If the current page has a translation in the other language, point to the translated page.
-     Otherwise point to the root of the other language.
+     For each language other than the current, show a flag linking to the translated page
+     (if it exists) or the root of that language.
+
+     Flags: https://github.com/GlobalArtInc/round-flags
+     Images named by language code: el.webp, en.webp, fr.webp, ...
      */}}
 
-     {{ $url := (cond (eq .Lang "el") "en/" "" | absURL) }}
-     {{ range .Page.AllTranslations }}
-          {{ if ne $.Lang .Lang }}
-               {{ $url = .RelPermalink }}
-          {{ end }}
+     {{/* Home page exists for every language — use it as the fallback URL per language. */}}
+     {{ $homeURLs := dict }}
+     {{ range $.Site.Home.AllTranslations }}
+          {{ $homeURLs = merge $homeURLs (dict .Lang .RelPermalink) }}
      {{ end }}
-     <a href='{{ $url }}'><img src="/images/{{ cond (eq .Lang "el") "en" "gr" }}.webp"></a>
+
+     {{ $translations := dict }}
+     {{ range .Page.AllTranslations }}
+          {{ $translations = merge $translations (dict .Lang .RelPermalink) }}
+     {{ end }}
+
+     {{ range $.Site.Languages }}
+          {{ $url := index $homeURLs .Lang | default (printf "/%s/" .Lang | absURL) }}
+          {{ with index $translations .Lang }}
+               {{ $url = . }}
+          {{ end }}
+          <a href="{{ $url }}"><img src="/images/{{ .Lang }}.webp"></a>
+     {{ end }}
 </div>
 
 
